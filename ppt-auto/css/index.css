@@ -1,0 +1,114 @@
+*{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    color: #fff;
+}
+html, body, .wrapper {
+    width: 100%;
+    height: 100%;
+}
+.wrapper {
+    position: relative;
+}
+.slider-list{
+    width: 100%;
+    height: 100%;
+}
+.slider-list .slider{
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 200px;
+    background-size: cover;
+    background-position: center;
+}
+.slider-list .slider:nth-of-type(1) {
+    background-image: url('../images/bg-1.jpg');
+}
+.slider-list .slider:nth-of-type(2) {
+    display: none;
+    background-image: url('../images/bg-2.jpg');
+}
+.slider-list .slider:nth-of-type(3) {
+    display: none;
+    background-image: url('../images/bg-3.jpg');
+}
+.slider-list .slider .title{
+    float: left;
+    width: 40%;
+}
+.slider-list .slider .title p{
+    font-size: 16px;
+}
+.slider-list .slider:nth-of-type(1) .title p{
+    font-size: 20px;
+}
+.slider-list .slider .image{
+    float: right;
+    width: 0%;
+}
+.slider-list .slider:nth-of-type(1) .image{
+    width: 40%;
+}
+.slider-list .slider .image img{
+    width: 100%;
+}
+
+
+.slider-btn{
+    position: absolute;
+    top: 50%;
+    margin-top: -15px;
+    width: 100%;
+}
+.slider-btn:after{
+    content: '';
+    clear: both;
+}
+.slider-btn .left-btn{
+    float: left;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin-left: 100px;
+    background-image: url('../images/left-btn.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.slider-btn .right-btn{
+    float: right;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin-right: 100px;
+    background-image: url('../images/right-btn.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+
+.slider-order{
+    position: absolute;
+    bottom: 100px;
+    width: 100%;
+    text-align: center;
+}
+.slider-order ul{
+    display: inline-block;
+    
+}
+.slider-order ul li{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #666;
+    margin-right: 20px;
+}
+.slider-order ul li:last-of-type{
+    margin-right: 0;
+}
+.slider-order ul li.active{
+    background: #fff;
+}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<script type="text/javascript">
+			//已知有字符串foo='get-element-by-id',写一个function将其转化成驼峰表示法”getElementById”
+			const toUpper = (str) => {
+				let arr = str.split('-'); // 字符串截取
+				for (let i = 1; i < arr.length; i++) {
+					arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].substr(1, arr[i].length - 1);
+				}
+				return arr.join(''); // 字符串拼接
+			};
+			console.log(toUpper('get-element-by-id'));
+		</script>
+	</body>
+
+</html>

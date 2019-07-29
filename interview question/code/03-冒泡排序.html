@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+
+<body>
+<script type="text/javascript">
+    let arr = [55, 11, 44, 66, 11, 2, 3, 4, 9];
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr.length - 1 - i; j++) {
+            if (arr[j] > arr[j + 1]) {
+				/**
+				 * arr[j] > arr[j + 1] 升序
+				 * arr[j] < arr[j + 1] 降序
+				 */
+				let temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+	console.log(arr);
+</script>
+</body>
+</html>

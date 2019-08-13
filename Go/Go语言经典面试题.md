@@ -113,6 +113,15 @@ func fbn(n int) ([] uint64)  {
 	return fbnSlice
 }
 
+// 斐波那数列生成器
+func fibonacci() func() int {
+    a, b := 0, 1
+    return func() int {
+        a, b := b, a+b
+        return a
+    }
+}
+
 
 ```
 
@@ -156,4 +165,111 @@ func sort(arr *[6]int) {
 	fmt.Println("排序后", *arr)
 }
 ```
+
+### 10. channel管道
+
+```go
+type Student struct {
+    Name string
+    Age int
+}
+func main() {
+    Chan := make(chan interface{}, 3)
+    Chan <- 10
+    Chan <- "demo"
+    student := Student{"korea", 20}
+    Chan <- student
+    // 获取管道中第三个队列的数据，不能直接获取，要先推出前面的数据
+    stu := <-Chan
+    fmt.Println(stu) // 会报错，取不到值
+    <- Chan
+    <- Chan
+    s := <-Chan
+    stu1 := s.(Student) // 类型断言，获取字段
+    fmt.Println(stu1.Name, stu1.Age) // 可以获取到值
+    
+}
+```
+
+### 11. const常量
+
+```go
+const (
+	a = Itoa
+    b
+    c
+)
+fmt.Println(a, b, c) // a = 0, b = 1, c = 2 依次递增
+const (
+	a = Itoa
+    b = Itoa
+    c, d = Itoa, Itoa
+)
+fmt.Println(a,b,c,d) // a=0,b=1,c=2,d=2  同一行中，只依次递增一次，同一行的变量不会递增赋值
+```
+
+### 12. 计算字节的长度
+
+```go 
+func Bytes() {
+	const (
+		b = 1 << (10 * iota)
+		kb
+		mb
+		gb
+		tb
+		pb
+	)
+	fmt.Println(b, kb, mb, gb, tb, pb)
+	// 1 1024 1048576 1073741824 1099511627776 1125899906842624
+
+}
+```
+
+### 13. 十进制转二进制函数
+
+```go
+func convertToBin (n int) string {
+    result := ""
+    for ; n > 0; n /= 2 {
+        result += strconv.Itoa(n % 2) 
+    }
+    return result
+}
+```
+
+### 14.读取文件
+
+```go
+func printFile(fileName string) {
+	file, err := os.Open(fileName)
+	if err != nil {
+		panic(err)
+	}
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		fmt.Println(scanner.Text())
+	}
+}
+```
+
+### 15.队列
+
+```go
+package main
+type Queue []interface{}
+func (q *QUeue) Push(v interface{}) {
+    *q = append(*q, v)
+}
+func (q *Queue) Pop() interface{} {
+    head := (*q)[0]
+    *q = (*q)[1:]
+    return head
+}
+func (q *Queue) IsEmpty() bool {
+    return len(*q) == 0
+}
+```
+
+
 

@@ -77,10 +77,7 @@ const isPrime = (n) => {
 
 ```js
 const fbn = (n) => {
-    if (n === 1 || n === 2) {
-        return 1;
-    }
-    return fbn(n - 1) + fbn(n - 2)
+return (n === 1 || n === 2) ? 1 : fbn(n - 1) + fbn(n - 2)
 }
 ```
 
@@ -259,7 +256,7 @@ console.log(obj+1) // 124
 ### 17. 返回随机最大值最小值
 
 ```js
-const getrandom = (min, max) => {
+const getRandom = (min, max) => {
     return Math.floor(Math.random() * (max + 1 - min) + min)
 }
 ```
@@ -324,7 +321,7 @@ const getBirth   = (montn, day) => {
 }
 ```
 
-20.获取当前月每一天的星期
+### 20.获取当前月每一天的星期
 
 ```js
 const print    = () => {
@@ -337,6 +334,31 @@ const print    = () => {
         result += `${y}年${m}月${i}日,星期${new Date(y, m-1, i).getDay()}`
     }
     return result;
+}
+```
+
+### 21. 得到创建object对象的构造名称
+
+```js
+function create () {
+    if (Math.random() < 0.5) {
+        return {};
+    } else {
+        return [];
+    }
+}
+let obj = create(); // 得到创建obj对象的构造名称
+console.log(obj.__proto__.constructor.name);
+
+```
+
+### 22. 字符串原型链上挂载函数
+
+```js
+String.protoType.camel = () => {
+    return this.replace(/\b(\w)(\w*)\b/g, ($, $1, $2) => {
+        return $1.toUpperCase() + $2;
+    }).replace(/\s/g, "");
 }
 ```
 

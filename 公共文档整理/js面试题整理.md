@@ -76,9 +76,9 @@ const isPrime = (n) => {
 ### 6.斐波那数列
 
 ```js
-const fbn = (n) => {
-return (n === 1 || n === 2) ? 1 : fbn(n - 1) + fbn(n - 2)
-}
+// 斐波那数列
+const fbn = n => (n === 1 || n === 2) ? 1 : fbn(n - 1) + fbn(n - 2);
+console.log(fbn(8));
 const fbn1 = max => {
     let a = 0, b = 1, arr = [0, 1];
     while(arr.length < max) {
@@ -86,6 +86,49 @@ const fbn1 = max => {
         arr.push(b);
     }
     return arr;
+}
+console.log(fbn1(10));
+// generator实现原理,迭代器还原
+const nameInterator = names => {
+    let nextIndex = 0;
+    return {
+        next() {
+            return nextIndex < names.length ?
+                    {values: names[nextIndex++], done: false} :
+                    {values: undefined, done: true}
+        }
+    }
+}
+
+const nameArray = ['kroea', 'wlp', 'ljh'];
+const name = nameInterator(nameArray);
+console.log(name.next());
+console.log(name.next());
+console.log(name.next());
+console.log(name.next());
+
+// generator原理实现
+function* Age() {
+    yield 10;
+    yield 20;
+    yield 30;
+}
+const age = Age();
+console.log(age.next());
+console.log(age.next());
+console.log(age.next());
+console.log(age.next());
+
+//  id生成器
+function* createId () {
+    let index = Math.floor(Math.random() / 0.5);
+    while(true) {
+        yield index ++;
+    }
+}
+const id = createId();
+for (let i = 0; i < 100; i++) {
+    console.log(id.next().value);
 }
 ```
 

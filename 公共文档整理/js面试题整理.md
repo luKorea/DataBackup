@@ -79,6 +79,14 @@ const isPrime = (n) => {
 const fbn = (n) => {
 return (n === 1 || n === 2) ? 1 : fbn(n - 1) + fbn(n - 2)
 }
+const fbn1 = max => {
+    let a = 0, b = 1, arr = [0, 1];
+    while(arr.length < max) {
+        [a, b] = [b, a + b];
+        arr.push(b);
+    }
+    return arr;
+}
 ```
 
 ### 7.计算对角线之和

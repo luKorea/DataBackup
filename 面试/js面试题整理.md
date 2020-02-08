@@ -413,3 +413,34 @@ String.protoType.camel = () => {
 }
 ```
 
+23. #### 获取页面中指定ID得所有标签，需要兼容所有浏览器
+
+    ```javascript
+    let queryGetAllId = (id) => {
+        let nodeList = document.getElementsByTagName('*'),
+            ary = [];
+        for (let i = 0; i < nodeList.length; i++) {
+            const idElement = nodeList[i];
+            idElement.id === id ? ary.push(idElement) : null;
+        }
+        return ary;
+    };
+    
+    ```
+
+24. ##### 变量及其作用域
+
+    ```javascript
+    console.log(a, b); // undefined undefined
+    var a = 10,
+        b = 11;
+    function f() {
+        console.log(a, b); // undefined 11
+        var a = b = 12;
+        console.log(a, b); // 12 12
+    }
+    f();
+    console.log(a, b); // 10 12
+    ```
+
+25. 

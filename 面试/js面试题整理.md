@@ -443,4 +443,164 @@ String.protoType.camel = () => {
     console.log(a, b); // 10 12
     ```
 
-25. 
+25. ##### 条件判断下的变量提升
+
+    ```javascript
+    f = function () {return true;};//=>window.f=...（TRUE）
+    g = function () {return false;};//=>window.g=...（FALSE）
+    ~function () {
+        /*
+         * 变量提升：
+         *   function g;  //=>g是私有变量
+         */
+        if (g() && [] == ![]) {//=>Uncaught TypeError: g is not a function （此时的g是undefined）
+            //=>[]==![]：TRUE
+            f = function () {return false;};//=>把全局中的f进行修改 window.f=...（FALSE）
+            function g() {return true;}
+        }
+    }();
+    console.log(f());
+    console.log(g());
+    ```
+
+26. ##### 变量重命名
+
+    ```javascript
+    /**
+     * 1.带VAR和FUNCTION关键字声明相同的名字，这种也算是重名了（其实是一个FN，只是存储值的类型不一样）
+     * 2. 关于重名的处理：如果名字重复了，不会重新的声明，
+     * 但是会重新的定义（重新赋值）[不管是变量提升还是代码执行阶段皆是如此]
+     */
+    fn(); // 4
+    function fn() {console.log(1)}
+    fn(); // 4
+    function fn() {console.log(2)}
+    fn(); // 4
+    var fn = 100;
+    function fn() {console.log(3)}
+    fn(); // fn is not a function
+    function fn() {console.log(4);}
+    fn();
+    ```
+
+23. ##### 全局变量与私有变量
+
+    ```javascript
+    var arr = [10, 20];
+    function f(arr) {
+        console.log(arr); // [10, 20]
+        arr[0] = 30; // 修改全局的
+        arr = [40]; // 修改的是局部的变量，与全局无关
+        arr[0] = 0;
+        console.log(arr);// [0]
+    }
+    f(arr);
+    console.log(arr); // [30 ,20]
+    ```
+
+24. 查找上级作用域
+
+    ```javascript
+    /*
+     * 当前函数执行，形成一个私有作用域A，A的上级作用域是谁，和他在哪执行的没有关系，和他在哪创建（定义）的有关系，在哪创建的，它的上级作用域就是谁
+     */
+    /*
+    var a = 12;
+    function fn() {
+        //=>arguments:实参集合
+        //=>arguments.callee:函数本身FN
+        //=>arguments.callee.caller:当前函数在哪执行的,CALLER就是谁(记录的是它执行的宿主环境),在全局下执行CALLER的结果是NULL
+        console.log(arguments.callee.caller);
+    }
+    function sum() {
+        var a = 120;
+        fn();
+    }
+    function aa() {
+        fn();
+    }
+    aa();
+    */
+    
+    var n = 10;
+    function fn() {
+        var n = 20;
+        function f() {
+            n++;
+            console.log(n);
+        }
+        f();
+        return f;
+    }
+    var x = fn();
+    x();
+    x();
+    console.log(n);
+    ```
+
+25. ##### 堆栈内存释放
+
+    ```javascript
+    /*
+     * JS中的内存分为堆内存和栈内存
+     *   堆内存：存储引用数据类型值（对象：键值对  函数：代码字符串）
+     *   栈内存：提供JS代码执行的环境和存储基本类型值
+     *
+     * [堆内存释放]
+     *   让所有引用堆内存空间地址的变量赋值为null即可（没有变量占用这个堆内存了，浏览器会在空闲的时候把它释放掉）
+     *
+     * [栈内存释放]
+     *   一般情况下，当函数执行完成，所形成的私有作用域（栈内存）都会自动释放掉（在栈内存中存储的值也都会释放掉），但是也有特殊不销毁的情况：
+     *   1.函数执行完成，当前形成的栈内存中，某些内容被栈内存以外的变量占用了，此时栈内存不能释放（一旦释放外面找不到原有的内容了）
+     *   2.全局栈内存只有在页面关闭的时候才会被释放掉
+     *   ...
+     *   如果当前栈内存没有被释放，那么之前在栈内存中存储的基本值也不会被释放，能够一直保存下来
+     */
+    
+    var i = 1;
+    function fn(i) {
+        return function (n) {
+            console.log(n + (++i));
+        }
+    }
+    var f = fn(2); 
+    f(3); // f(2)(3) = 3 + 3 = 6; i = 3;
+    fn(5)(6); // f(5)(6) = 6+6 = 12; i = 6;
+    fn(7)(8); // f(7)(8) = 8 + 8 = 16; i = 8;
+    f(4); // 4+4 = 8
+    ```
+
+26. ##### 闭包的两种形式
+
+    ```javascript
+    /*
+     * [闭包]
+     *   =>函数执形成一个私有的作用域，保护里面的私有变量不受外界的干扰，这种保护机制称之为“闭包”
+     *
+     *   =>市面上的开发者认为的闭包是：形成一个不销毁的私有作用域（私有栈内存）才是闭包
+     */
+    
+    // 柯里化函数
+    function fn () {
+        return function() {
+            
+        }
+    }
+    var f = fn();
+    
+    // 惰性函数
+    var utils = (function () {
+        return {
+            
+        }
+    })();
+    //=>闭包项目实战应用
+    //==>真实项目中为了保证JS的性能（堆栈内存的性能优化），应该尽可能的减少闭包的使用（不销毁的堆栈内存是耗性能的）
+    //1.闭包具有“保护”作用：保护私有变量不受外界的干扰
+    //> 在真实项目中，尤其是团队协作开发的时候，应当尽可能的减少全局变量的使用，以防止相互之前的冲突（“全局变量污染”），那么此
+    //2.闭包具有“保存”作用：形成不销毁的栈内存，把一些值保存下来，方便后面的调取使用
+    ```
+
+    
+
+27. 

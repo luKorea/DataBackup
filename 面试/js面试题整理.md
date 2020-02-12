@@ -603,4 +603,41 @@ String.protoType.camel = () => {
 
     
 
-27. 
+31. 获取数组中的最大值
+
+    ```javascript
+    /**
+     * @description 获取数组中的最大值
+     */
+    
+    let arr = [1, 2, 33, 44, 66, 77, 88, 55, 100];
+    
+    // 方法一 通过数组排序，从大到小，第一位就是最大值
+    let max = arr.sort((a, b) => b - a)[0];
+    console.log(max);
+    
+    // 方法二 假设法
+    let max1 = arr[0];
+    arr.forEach(item => (item > max1)? max1 = item : null);
+    console.log(max1);
+    
+    // 方法三 Math.max()
+    let max3 = Math.max(...arr); // 100 88 77 66 55 44 33 2 1
+    let max4 = eval(`Math.max(${arr.toString()})`);
+    let max5 = Math.max.apply(null, arr);
+    console.log(max3, max4, max5);
+    ```
+
+32. 随机打乱数组
+
+    ```javascript
+    let arr = [11,1,3,4,5,6,7,8,5,343,43,423,43,43,43];
+    
+    arr.sort((a, b) => {
+        return Math.round(Math.random() * 10 - 5);
+    });
+    
+    console.log(arr);
+    ```
+
+33. 
